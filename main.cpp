@@ -57,10 +57,12 @@ int main(int argc, char* argv[])
 {
     using namespace std;
 
-    ThreadPool* tp = new ThreadPool(4);
-    for(int i=0; i<1000; ++i)
+    OutputQueue::get_instance();
+    ThreadPool* tp = new ThreadPool(5000);
+    for(int i=0; i<5000; ++i)
     {
         tp->assign_task(std::to_string(i));
+        usleep(1);
     }
     tp->assign_task("majid");
     tp->assign_task("hamid");
@@ -68,10 +70,13 @@ int main(int argc, char* argv[])
     tp->assign_task("hossein");
 
     boost::thread pop_thread{start_consumer};
-
+    printf("a\n");
     tp->get_pool().join();
+    printf("b\n");
     OutputQueue::get_instance()->terminate();
+    printf("c\n");
     pop_thread.join();
+    printf("d\n");
     return 0;
 
 

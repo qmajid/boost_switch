@@ -13,12 +13,6 @@ parser::~parser()
 
 void parser::print(std::string msg)
 {
-    usleep(1*1);
     //std::cout<<"----"<<msg<<"----"<<std::endl;
     OutputQueue::get_instance()->push(msg);
 }
-
-// void parser::print()
-// {
-//     std::cout<<"default parser..."<<std::endl;
-// }

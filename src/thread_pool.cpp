@@ -10,8 +10,7 @@ ThreadPool::ThreadPool(int thread_count) :
 
 ThreadPool::~ThreadPool()
 {
-    //pool.join();
-    pool.stop();
+    printf("ThreadPool::~ThreadPool()\n");
 }
 
 boost::asio::thread_pool& ThreadPool::get_pool()
