@@ -16,7 +16,7 @@ public:
     static OutputQueue* get_instance();
     void terminate();
     void push(string message);
-    string pop();
+    void  pop();
 
 private:
     OutputQueue();
