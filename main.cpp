@@ -57,19 +57,26 @@ int main(int argc, char* argv[])
 {
     using namespace std;
 
-    OutputQueue::get_instance();
+    OutputQueue* output_queue = OutputQueue::get_instance();
     boost::thread pop_thread{start_consumer};
-    ThreadPool* tp = new ThreadPool(5000);
-    for(int i=0; i<5000; ++i)
+    ThreadPool* tp = new ThreadPool(10);
+    for(int i=0; i<100000; ++i)
     {
         tp->assign_task(std::to_string(i));
-        usleep(1);
+
+        while (output_queue->get_queue_count() > 100)
+        {
+            printf("usleep %d\n", output_queue->get_queue_count());
+            usleep(1000);
+        }
+        // if (i>0 && i%5000 == 0)
+        //     usleep(1000*1000*5);
     }
     tp->assign_task("majid");
     tp->assign_task("hamid");
     tp->assign_task("hasan");
     tp->assign_task("hossein");
-    
+
     printf("a\n");
     tp->get_pool().join();
     printf("b\n");

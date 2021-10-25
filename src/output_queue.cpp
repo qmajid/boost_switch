@@ -5,7 +5,8 @@ constexpr int QUEUE_SIZE = 500;
 
 OutputQueue::OutputQueue(/* args */):
     queue(QUEUE_SIZE),
-    is_finish(false)
+    is_finish(false),
+    queue_count(0)
 {
 }
 
@@ -33,6 +34,7 @@ void OutputQueue::push(string message)
 {
     //printf("push:%s\n", message.c_str());
     while (!queue.push(message.c_str()));
+    ++queue_count;
 }
 
 void OutputQueue::pop()
@@ -44,10 +46,16 @@ void OutputQueue::pop()
         string value = "";
         while (queue.pop(value))
         {
-            printf("----%s----\n", value.c_str());
+            std::cout<<"----"<<value.c_str()<<"----"<<queue_count<<std::endl;
             //std::cout<<"----"<<value<<"----"<<std::endl;
-            //usleep(100*5);
+            //usleep(1000*500);
+            --queue_count;
         }
     }
     printf("end pop\n");
+}
+
+int OutputQueue::get_queue_count()
+{
+    return queue_count;
 }
