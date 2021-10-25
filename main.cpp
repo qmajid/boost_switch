@@ -58,6 +58,7 @@ int main(int argc, char* argv[])
     using namespace std;
 
     OutputQueue::get_instance();
+    boost::thread pop_thread{start_consumer};
     ThreadPool* tp = new ThreadPool(5000);
     for(int i=0; i<5000; ++i)
     {
@@ -68,8 +69,7 @@ int main(int argc, char* argv[])
     tp->assign_task("hamid");
     tp->assign_task("hasan");
     tp->assign_task("hossein");
-
-    boost::thread pop_thread{start_consumer};
+    
     printf("a\n");
     tp->get_pool().join();
     printf("b\n");
